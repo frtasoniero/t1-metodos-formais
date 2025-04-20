@@ -36,7 +36,29 @@ qed
 
 (* Teorema: pot(x, m * n) = pot(pot(x, m), n) *)
 theorem t2: "\<forall>x m::nat. pot x (m * n) = pot (pot x m) n"
-  sorry
+  proof (induction n)
+  case 0
+  show "\<forall>x m. pot x (m * 0) = pot (pot x m) 0"
+  proof (rule allI, rule allI)
+    fix x m :: nat
+    have "pot x (m * 0) = pot x 0" by simp
+    also have "... = 1" by (simp only: poteq1)
+    also have "... = pot (pot x m) 0" by (simp only: poteq1)
+    finally show "pot x (m * 0) = pot (pot x m) 0" .
+  qed
+next
+  case (Suc n)
+  show "\<forall>x m. pot x (m * Suc n) = pot (pot x m) (Suc n)"
+  proof (rule allI, rule allI)
+    fix x m :: nat
+    have "pot x (m * Suc n) = pot x (m + (m * n) )" by simp
+    also have "... = pot x (m * n) * pot x m" using t1 by simp
+    also have "... = pot (pot x m) n * pot x m" using Suc.IH by simp
+    also have "... = pot x m * pot (pot x m) n" by simp
+    also have "... = pot (pot x m) (Suc n)" by (simp only: poteq2)
+    finally show "pot x (m * Suc n) = pot (pot x m) (Suc n)" .
+  qed
+qed
 
 primrec cat :: "'a list \<Rightarrow> 'a list \<Rightarrow> 'a list" where
 cateq1: "cat [] ys = ys" |
