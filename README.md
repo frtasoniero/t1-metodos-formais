@@ -27,17 +27,15 @@ pot(x, y + 1) = x * pot(x, y)
 
   > For all $x, m, n \in \mathbb{N}$:
   >
-  > $$
-  > \text{pot}(x, m + n) = \text{pot}(x, m) \times \text{pot}(x, n)
-  > $$
+  > $\text{pot}(x, m + n) = \text{pot}(x, m) \times \text{pot}(x, n)$
+  > 
 
 * **Then, using the lemma, prove the Theorem:**
 
   > For all $x, m, n \in \mathbb{N}$:
   >
-  > $$
-  > \text{pot}(x, m \times n) = \text{pot}(\text{pot}(x, m), n)
-  > $$
+  > $\text{pot}(x, m \times n) = \text{pot}(\text{pot}(x, m), n)$
+  > 
 
 ---
 
@@ -75,17 +73,15 @@ pot(x, y + 1) = x * pot(x, y)
 
   > For all $xs, ys \in \text{List}(\mathbb{N})$:
   >
-  > $$
-  > \text{somatorio}(\text{cat}(xs, ys)) = \text{somatorio}(xs) + \text{somatorio}(ys)
-  > $$
+  > $\text{somatorio}(\text{cat}(xs, ys)) = \text{somatorio}(xs) + \text{somatorio}(ys)$
+  > 
 
 * **Then, using the lemma, prove the Theorem:**
 
   > For all $xs \in \text{List}(\mathbb{N})$:
   >
-  > $$
-  > \text{somatorio}(\text{reverso}(xs)) = \text{somatorio}(xs)
-  > $$
+  > $\text{somatorio}(\text{reverso}(xs)) = \text{somatorio}(xs)$
+  > 
 
 ## 📦 **Submission Checklist**
 
