@@ -96,7 +96,7 @@ pot(x, y + 1) = x * pot(x, y)
      * Complete Isabelle source code
      * Name of all group members
 
-## 🗒️ Professor's Notes After Review
+## 🗒️ Notes After Project Review
 
   - **Task 1**
 
