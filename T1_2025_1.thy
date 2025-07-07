@@ -2,11 +2,13 @@ theory T1_2025_1
   imports Main
 begin
 
+(*Alunos: Felipe R. Tasoniero, Lucas S. Wolschick*)
+
+(*Exercicio 1*)
 primrec pot :: "nat \<Rightarrow> nat \<Rightarrow> nat" where
 poteq1: "pot x 0 = Suc 0" |
 poteq2: "pot x (Suc y) = x * pot x y"
 
-(* Lema: pot(x, m + n) = pot(x, m) * pot(x, n) *)
 lemma t1: "\<forall>x m::nat. pot x (m + n) = pot x m * pot x n"
 proof (induction n)
   case 0
@@ -34,7 +36,6 @@ next
   qed
 qed
 
-(* Teorema: pot(x, m * n) = pot(pot(x, m), n) *)
 theorem t2: "\<forall>x m::nat. pot x (m * n) = pot (pot x m) n"
   proof (induction n)
   case 0
@@ -60,6 +61,7 @@ next
   qed
 qed
 
+(*Exercicio 2*)
 primrec cat :: "'a list \<Rightarrow> 'a list \<Rightarrow> 'a list" where
 cateq1: "cat [] ys = ys" |
 cateq2: "cat (x#xs) ys = x#cat xs ys"
@@ -73,9 +75,45 @@ somaeq1: "somatorio [] = 0" |
 somaeq2: "somatorio (x#xs) = x + somatorio xs"
 
 lemma t3: "\<forall>ys::nat list. somatorio (cat xs ys) = somatorio xs + somatorio ys"
-  sorry
+proof (induction xs)
+  case Nil
+  show "\<forall>ys. somatorio (cat [] ys) = somatorio [] + somatorio ys"
+  proof (rule allI)
+    fix ys :: "nat list"
+    have "somatorio (cat [] ys) = somatorio ys" by (simp only: cateq1)
+    also have "... = 0 + somatorio ys" by simp
+    also have "... = somatorio [] + somatorio ys" by (simp only: somaeq1)
+    finally show "somatorio (cat [] ys) = somatorio [] + somatorio ys" .
+  qed
+next
+  case (Cons x xs)
+  show "\<forall>ys. somatorio (cat (x # xs) ys) = somatorio (x # xs) + somatorio ys"
+  proof (rule allI)
+    fix ys :: "nat list"
+    have "somatorio (cat (x # xs) ys) = somatorio (x # cat xs ys)" by (simp only: cateq2)
+    also have "... = x + somatorio (cat xs ys)" by (simp only: somaeq2)
+    also have "... = x + (somatorio xs + somatorio ys)" using Cons.IH by simp
+    also have "... = (x + somatorio xs) + somatorio ys" by simp
+    also have "... = somatorio (x # xs) + somatorio ys" by (simp only: somaeq2)
+    finally show "somatorio (cat (x # xs) ys) = somatorio (x # xs) + somatorio ys" .
+  qed
+qed
 
 theorem t4: "somatorio (reverso xs) = somatorio xs"
-  sorry
-
+proof (induction xs)
+  case Nil
+  have "somatorio (reverso []) = somatorio []" by (simp only: reveq1)
+  then show ?case by (simp only: somaeq1)
+next
+  case (Cons x xs)
+  have "somatorio (reverso (x # xs)) = somatorio (cat (reverso xs) [x])"
+    by (simp only: reveq2)
+  also have "... = somatorio (reverso xs) + somatorio [x]"
+    using t3 by simp
+  also have "... = somatorio xs + somatorio [x]"
+    using Cons.IH by simp
+  also have "... = somatorio (x # xs)"
+    by simp
+  finally show ?case .
+qed
 end
